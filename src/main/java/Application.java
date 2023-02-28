@@ -1,15 +1,19 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class Application {
 
-    public static void main(String[] args) throws SQLException {
-      final String user = "postgres";
-      final String password = "123";
-      final String url = "jdbc:postgresql://localhost:5432/skypro";
+    public static void main(String[] args) throws SQLException, IOException {
+        Properties properties = new Properties();
+        properties.load(new FileInputStream(Paths.get("db.properties").toFile()));
 
-      try (final Connection connection = DriverManager.getConnection(url, user, password);
+      try (final Connection connection = DriverManager.getConnection(properties.getProperty("url"), properties.getProperty("username"), properties.getProperty("password"));
            PreparedStatement statement = connection.prepareStatement("SELECT * FROM employee WHERE id =(?)")){
 
           statement.setInt(1, 1);
