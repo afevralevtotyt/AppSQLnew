@@ -55,7 +55,7 @@ public class Application {
 
           List<Employee> employeeListLast = employeeDAO.readAll();
 
-          System.out.println("Список после удаления 5ого сотрудника");
+          System.out.println("Список после удаления сотрудника");
           employeeListLast.stream().forEach(System.out::println);
 
 
