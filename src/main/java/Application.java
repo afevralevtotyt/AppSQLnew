@@ -10,7 +10,7 @@ public class Application {
       final String url = "jdbc:postgresql://localhost:5432/skypro";
 
       try (final Connection connection = DriverManager.getConnection(url, user, password);
-           PreparedStatement statement = connection.prepareStatement("SELECT * FROM employee WHERE id =(?);")){
+           PreparedStatement statement = connection.prepareStatement("SELECT * FROM employee WHERE id =(?)")){
 
           statement.setInt(1, 1);
 
@@ -51,7 +51,7 @@ public class Application {
 
           System.out.println("Второй сотрудник: " + employeeDAO.readById(2));
 
-          employeeDAO.deleteById(1);
+          employeeDAO.deleteById(11);
 
           List<Employee> employeeListLast = employeeDAO.readAll();
 

@@ -14,7 +14,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Override
     public void createEmployee(Employee employee) {
-        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO employee (first_name, last_name, gender, age, city_id) VALUES ((?), (?), (?), (?), (?))")) {
+        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO employee (first_name, last_name, gender, age, city_id) VALUES ((?), (?), (?), (?), (?));")) {
 
             statement.setString(1, employee.getFirstName());
             statement.setString(2, employee.getLastName());
@@ -22,7 +22,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             statement.setInt(4, employee.getAge());
             statement.setInt(5, employee.getCity().getCityId());
 
-            statement.executeQuery();
+            statement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -34,7 +34,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
         Employee employee = new Employee();
 
-        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM employee INNER JOIN city ON employee.city_id = city.city_id AND id =(?)")) {
+        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM employee INNER JOIN city ON employee.city_id = city.city_id AND id =(?);")) {
 
             statement.setInt(1, id);
 
@@ -61,7 +61,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     public List<Employee> readAll() {
 
         List<Employee> employeeList = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM employee INNER JOIN city ON employee.city_id = city.city_id")) {
+        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM employee INNER JOIN city ON employee.city_id = city.city_id;")) {
 
 
             ResultSet resultSet = statement.executeQuery();
@@ -88,7 +88,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     @Override
     public void updateEmployeeById(int id, String firstName, String lastName, String gender, int age, int cityId) {
 
-        try (PreparedStatement statement = connection.prepareStatement("UPDATE employee SET first_name =(?), last_name =(?), gender= (?), age = (?), city_id = (?) WHERE id =(?)")) {
+        try (PreparedStatement statement = connection.prepareStatement("UPDATE employee SET first_name =(?), last_name =(?), gender= (?), age = (?), city_id = (?) WHERE id =(?);")) {
             statement.setInt(6, id);
             statement.setString(1, firstName);
             statement.setString(2, lastName);
@@ -96,8 +96,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             statement.setInt(4, age);
             statement.setInt(5, cityId);
 
-            statement.executeQuery();
-
+            statement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -108,9 +107,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     @Override
     public void deleteById(int id) {
 
-        try (PreparedStatement statement = connection.prepareStatement("DELETE FROM employee WHERE id=(?)")) {
+        try (PreparedStatement statement = connection.prepareStatement("DELETE FROM employee WHERE id=(?);")) {
             statement.setInt(1, id);
-            statement.executeQuery();
+           statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
