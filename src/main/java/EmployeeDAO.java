@@ -8,8 +8,7 @@ public interface EmployeeDAO {
 
     List<Employee> readAll();
 
-    void updateEmployeeById(int id, String firstName, String lastName, String gender, int age, int cityId);
+    void updateEmployee(Employee employee);
 
-    void deleteById(int id);
-
+    void delete(Employee employee);
 }
